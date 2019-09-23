@@ -14,3 +14,5 @@ logging:
       demo:
         demo:
           mapper: debug
+pagehelper:
+  auto-dialect: mysql

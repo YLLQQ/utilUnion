@@ -1,6 +1,10 @@
 package self.yang.mybatis.service;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.google.common.collect.Lists;
 import self.yang.mybatis.domain.BaseDO;
+import self.yang.mybatis.domain.PageModel;
 import self.yang.mybatis.helper.SqlHelper;
 import self.yang.mybatis.mapper.BaseMapper;
 import self.yang.mybatis.sql.OrderCondition;
@@ -223,6 +227,29 @@ public abstract class BaseService<M extends BaseMapper, D extends BaseDO> {
     }
 
     /**
+     * 分页筛选语句
+     *
+     * @param columns
+     * @param whereConditions
+     * @param groupByConditions
+     * @param orderConditions
+     * @param page
+     * @param size
+     * @return
+     */
+    protected PageModel<D> listByConditionWithPage(
+            String[] columns, WhereCondition[] whereConditions, String[] groupByConditions,
+            OrderCondition[] orderConditions, int page, int size
+    ) {
+        String columnString = SqlHelper.getColumnString(columns, isLowerCamelToLowerUnderScore());
+        String whereString = SqlHelper.getWhereString(whereConditions);
+        String groupByString = SqlHelper.getGroupByString(groupByConditions);
+        String orderByString = SqlHelper.getOrderByString(orderConditions);
+
+        return this.listWithPage(columnString, whereString, groupByString, orderByString, page, size);
+    }
+
+    /**
      * 筛选语句
      *
      * @param columns
@@ -241,6 +268,40 @@ public abstract class BaseService<M extends BaseMapper, D extends BaseDO> {
         String orderByString = SqlHelper.getOrderByString(orderConditions);
 
         return this.list(columnString, whereString, groupByString, orderByString);
+    }
+
+    /**
+     * 分页筛选语句
+     *
+     * @param columnString  投影列,默认为表的全部列
+     * @param whereString   where条件语句
+     * @param groupByString groupBy条件语句
+     * @param orderByString orderBy条件语句
+     * @return
+     */
+    private PageModel<D> listWithPage(
+            String columnString, String whereString, String groupByString, String orderByString, int page, int size
+    ) {
+        if (StringUtil.isEmpty(columnString)) {
+            columnString = getFullColumnsByClass();
+        }
+
+        PageHelper.startPage(page, size);
+
+        Page<D> withPage = getMapper().listWithPage(
+                getTableName(), columnString, whereString, groupByString, orderByString);
+
+        List<D> list = Lists.newArrayList(withPage);
+
+        PageModel<D> pageModel = new PageModel<>();
+
+        pageModel.setPage(withPage.getPageNum());
+        pageModel.setPageSize(list.size());
+        pageModel.setPageTotal(withPage.getPages());
+        pageModel.setRecordTotal(withPage.getTotal());
+        pageModel.setList(list);
+
+        return pageModel;
     }
 
     /**

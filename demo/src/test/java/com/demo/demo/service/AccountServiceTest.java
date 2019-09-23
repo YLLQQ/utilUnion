@@ -4,6 +4,7 @@ import com.demo.demo.DemoApplicationTests;
 import com.demo.demo.domain.AccountDO;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import self.yang.mybatis.domain.PageModel;
 
 /**
  * com.demo.demo.service.AccountServiceTest
@@ -21,6 +22,21 @@ public class AccountServiceTest extends DemoApplicationTests {
         AccountDO accountById = accountService.getAccountById(3);
 
         System.out.println(accountById);
+
+        PageModel<AccountDO> accountWithPage = accountService.getAccountWithPage(1, 3);
+
+        System.out.println(accountWithPage);
+        System.out.println(accountWithPage.getList());
+
+        accountWithPage = accountService.getAccountWithPage(3, 3);
+
+        System.out.println(accountWithPage);
+        System.out.println(accountWithPage.getList());
+
+        accountWithPage = accountService.getAccountWithPage(4, 3);
+
+        System.out.println(accountWithPage);
+        System.out.println(accountWithPage.getList());
 
     }
 }

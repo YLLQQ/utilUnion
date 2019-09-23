@@ -1,5 +1,6 @@
 package self.yang.mybatis.mapper;
 
+import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.*;
 import self.yang.mybatis.domain.BaseDO;
 
@@ -14,11 +15,11 @@ import java.util.List;
 @Mapper
 public interface BaseMapper<D extends BaseDO> {
 
+    String SQL_ID = "id";
+
     String SQL_TABLE_NAME = "tableName";
 
-    String SQL_COLUMNS = "columns";
-
-    String SQL_ID = "id";
+    String SQL_COLUMN_STRING = "columnString";
 
     String SQL_SET_STRING = "setString";
 
@@ -71,14 +72,14 @@ public interface BaseMapper<D extends BaseDO> {
      * 获取表中的对象
      *
      * @param tableName
-     * @param columns
+     * @param columnString
      * @param id
      * @return
      */
-    @Select("select ${columns} from ${tableName} where id=${id}")
+    @Select("select ${columnString} from ${tableName} where id=${id}")
     D getWithColumnsById(
             @Param(SQL_TABLE_NAME) String tableName,
-            @Param(SQL_COLUMNS) String columns,
+            @Param(SQL_COLUMN_STRING) String columnString,
             @Param(SQL_ID) Number id
     );
 
@@ -96,16 +97,35 @@ public interface BaseMapper<D extends BaseDO> {
      * 获取筛选查询语句
      *
      * @param tableName
-     * @param columns
+     * @param columnString
      * @param whereString
      * @param groupByString
      * @param orderByString
      * @return
      */
-    @Select("select ${columns} from ${tableName} ${whereString} ${groupByString} ${orderByString}")
+    @Select("select ${columnString} from ${tableName} ${whereString} ${groupByString} ${orderByString}")
     List<D> list(
             @Param(SQL_TABLE_NAME) String tableName,
-            @Param(SQL_COLUMNS) String columns,
+            @Param(SQL_COLUMN_STRING) String columnString,
+            @Param(SQL_WHERE_STRING) String whereString,
+            @Param(SQL_GROUP_BY_STRING) String groupByString,
+            @Param(SQL_ORDER_BY_STRING) String orderByString
+    );
+
+    /**
+     * 获取筛选查询语句
+     *
+     * @param tableName
+     * @param columnString
+     * @param whereString
+     * @param groupByString
+     * @param orderByString
+     * @return
+     */
+    @Select("select ${columnString} from ${tableName} ${whereString} ${groupByString} ${orderByString}")
+    Page<D> listWithPage(
+            @Param(SQL_TABLE_NAME) String tableName,
+            @Param(SQL_COLUMN_STRING) String columnString,
             @Param(SQL_WHERE_STRING) String whereString,
             @Param(SQL_GROUP_BY_STRING) String groupByString,
             @Param(SQL_ORDER_BY_STRING) String orderByString
