@@ -11,6 +11,7 @@ import java.util.List;
  * @author eleven
  * @date 2019/09/21
  */
+@Mapper
 public interface BaseMapper<D extends BaseDO> {
 
     String SQL_TABLE_NAME = "tableName";
@@ -29,24 +30,6 @@ public interface BaseMapper<D extends BaseDO> {
 
     String SQL_ORDER_BY_STRING = "orderByString";
 
-    String BASE_SELECT_SQL = "select * from ${tableName}";
-
-    String BASE_SELECT_DETAIL_SQL = "select ${columns} from ${tableName}";
-
-    String BASE_DELETE_SQL = "delete from ${tableName}";
-
-    String BASE_UPDATE_SQL = "update ${tableName} set ${setString}";
-
-    String BASE_INSERT_SQL = "insert into ${tableName}${insertString}";
-
-    String WHERE_ID = " where id=${id}";
-
-    String WHERE_OPTIONAL = " ${whereString}";
-
-    String GROUP_BY_OPTIONAL = " ${groupByString}";
-
-    String ORDER_BY_OPTIONAL = " ${orderByString}";
-
     /**
      * 增加新值
      *
@@ -54,7 +37,7 @@ public interface BaseMapper<D extends BaseDO> {
      * @param insertString
      * @return
      */
-    @Insert(BASE_INSERT_SQL)
+    @Insert("insert into ${tableName}${insertString}")
     boolean add(
             @Param(SQL_TABLE_NAME) String tableName, @Param(SQL_INSERT_STRING) String insertString
     );
@@ -67,7 +50,7 @@ public interface BaseMapper<D extends BaseDO> {
      * @param id
      * @return
      */
-    @Update(BASE_UPDATE_SQL + WHERE_ID)
+    @Update("update ${tableName} set ${setString} where id=${id}")
     boolean updateById(
             @Param(SQL_TABLE_NAME) String tableName,
             @Param(SQL_SET_STRING) String setString,
@@ -81,7 +64,7 @@ public interface BaseMapper<D extends BaseDO> {
      * @param id
      * @return
      */
-    @Delete(BASE_DELETE_SQL + WHERE_ID)
+    @Delete("delete from ${tableName} where id=${id}")
     boolean deleteById(@Param(SQL_TABLE_NAME) String tableName, @Param(SQL_ID) Number id);
 
     /**
@@ -92,7 +75,7 @@ public interface BaseMapper<D extends BaseDO> {
      * @param id
      * @return
      */
-    @Select(BASE_SELECT_DETAIL_SQL + WHERE_ID)
+    @Select("select ${columns} from ${tableName} where id=${id}")
     D getWithColumnsById(
             @Param(SQL_TABLE_NAME) String tableName,
             @Param(SQL_COLUMNS) String columns,
@@ -106,11 +89,11 @@ public interface BaseMapper<D extends BaseDO> {
      * @param id
      * @return
      */
-    @Select(BASE_SELECT_SQL + WHERE_ID)
+    @Select("select * from ${tableName} where id=${id}")
     D getById(@Param(SQL_TABLE_NAME) String tableName, @Param(SQL_ID) Number id);
 
     /**
-     * 获取表中的所有对象
+     * 获取筛选查询语句
      *
      * @param tableName
      * @param columns
@@ -119,48 +102,12 @@ public interface BaseMapper<D extends BaseDO> {
      * @param orderByString
      * @return
      */
-    @Select(BASE_SELECT_DETAIL_SQL + WHERE_OPTIONAL + GROUP_BY_OPTIONAL + ORDER_BY_OPTIONAL)
-    List<D> listAllWithColumnsAndWhereString(
+    @Select("select ${columns} from ${tableName} ${whereString} ${groupByString} ${orderByString}")
+    List<D> list(
             @Param(SQL_TABLE_NAME) String tableName,
             @Param(SQL_COLUMNS) String columns,
             @Param(SQL_WHERE_STRING) String whereString,
             @Param(SQL_GROUP_BY_STRING) String groupByString,
             @Param(SQL_ORDER_BY_STRING) String orderByString
     );
-
-    /**
-     * 获取表中的所有对象
-     *
-     * @param tableName
-     * @param whereString
-     * @param groupByString
-     * @param orderByString
-     * @return
-     */
-    @Select(BASE_SELECT_SQL + WHERE_OPTIONAL + GROUP_BY_OPTIONAL + ORDER_BY_OPTIONAL)
-    List<D> listAllWithWhereString(
-            @Param(SQL_TABLE_NAME) String tableName,
-            @Param(SQL_WHERE_STRING) String whereString,
-            @Param(SQL_GROUP_BY_STRING) String groupByString,
-            @Param(SQL_ORDER_BY_STRING) String orderByString
-    );
-
-    /**
-     * 获取表中的所有对象
-     *
-     * @param tableName
-     * @param columns
-     * @return
-     */
-    @Select(BASE_SELECT_DETAIL_SQL)
-    List<D> listAllWithColumns(@Param(SQL_TABLE_NAME) String tableName, @Param(SQL_COLUMNS) String columns);
-
-    /**
-     * 获取表中的所有对象
-     *
-     * @param tableName
-     * @return
-     */
-    @Select(BASE_SELECT_SQL)
-    List<D> listAll(@Param(SQL_TABLE_NAME) String tableName);
 }

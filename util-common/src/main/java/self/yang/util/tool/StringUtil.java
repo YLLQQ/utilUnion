@@ -15,6 +15,16 @@ import self.yang.util.constant.GeneralConstant;
 public class StringUtil {
 
     /**
+     * 是否为空
+     *
+     * @param string
+     * @return
+     */
+    public static boolean isEmpty(String string) {
+        return null == string || string.length() == 0;
+    }
+
+    /**
      * 拼接SQL值
      *
      * @param value

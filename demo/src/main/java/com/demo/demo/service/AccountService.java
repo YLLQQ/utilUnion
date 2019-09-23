@@ -28,4 +28,8 @@ public class AccountService extends BaseService<AccountMapper, AccountDO> {
         return "account";
     }
 
+    public AccountDO getAccountById(Integer id) {
+        return super.getWithColumnsById(id);
+    }
+
 }

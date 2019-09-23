@@ -23,20 +23,52 @@ public class SqlHelper {
     private static final String ORDER_BY_START = " order by ";
 
     /**
+     * 获取投影列
+     *
+     * @param columns
+     * @param convert 是否进行小写驼峰命名转驼峰下划线
+     * @return
+     */
+    public static String getColumnString(String[] columns, boolean convert) {
+        if (null == columns) {
+            return null;
+        }
+
+        int length = columns.length;
+
+        if (length == 1) {
+            if (convert) {
+                return StringUtil.lowerCamelToLowerUnderScore(columns[0]);
+            }
+
+            return columns[0];
+        }
+
+        StringBuilder columnString = new StringBuilder();
+
+        for (String column : columns) {
+            columnString.append(GeneralConstant.COMMA);
+            columnString.append(GeneralConstant.RUMINATING);
+            if (convert) {
+                columnString.append(StringUtil.lowerCamelToLowerUnderScore(column));
+            }
+            columnString.append(GeneralConstant.RUMINATING);
+        }
+
+        return columnString.substring(1);
+    }
+
+    /**
      * 获取Order表达式
      *
      * @param orderConditions
      */
-    public static String getOrderByString(OrderCondition... orderConditions) {
+    public static String getOrderByString(OrderCondition[] orderConditions) {
         if (null == orderConditions) {
             return GeneralConstant.EMPTY;
         }
 
         int length = orderConditions.length;
-
-        if (length == 0) {
-            return GeneralConstant.EMPTY;
-        }
 
         if (length == 1) {
             return ORDER_BY_START + orderConditions[0].toString();
@@ -60,16 +92,12 @@ public class SqlHelper {
      * @param keys
      * @return
      */
-    public static String getGroupByString(String... keys) {
+    public static String getGroupByString(String[] keys) {
         if (null == keys) {
             return GeneralConstant.EMPTY;
         }
 
         int length = keys.length;
-
-        if (length == 0) {
-            return GeneralConstant.EMPTY;
-        }
 
         if (length == 1) {
             return GROUP_BY_START + keys[0];
@@ -79,7 +107,9 @@ public class SqlHelper {
 
         for (String key : keys) {
             stringBuilder.append(GeneralConstant.COMMA);
+            stringBuilder.append(GeneralConstant.RUMINATING);
             stringBuilder.append(key);
+            stringBuilder.append(GeneralConstant.RUMINATING);
         }
 
         stringBuilder.deleteCharAt(10);
@@ -92,16 +122,12 @@ public class SqlHelper {
      *
      * @param whereConditions
      */
-    public static String getWhereString(WhereCondition... whereConditions) {
+    public static String getWhereString(WhereCondition[] whereConditions) {
         if (null == whereConditions) {
             return GeneralConstant.EMPTY;
         }
 
         int length = whereConditions.length;
-
-        if (length == 0) {
-            return GeneralConstant.EMPTY;
-        }
 
         if (length == 1) {
             WhereCondition whereCondition = whereConditions[0];

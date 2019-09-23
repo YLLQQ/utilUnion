@@ -114,7 +114,7 @@ public class ClassUtil {
      * @param aClass
      * @return
      */
-    public static String getFullFields(Class aClass) {
+    public static String getFullFields(Class aClass, boolean isSql) {
         Field[] fields = aClass.getDeclaredFields();
 
         StringBuilder stringBuilder = new StringBuilder();
@@ -125,7 +125,14 @@ public class ClassUtil {
             }
 
             stringBuilder.append(GeneralConstant.COMMA);
-            stringBuilder.append(field.getName());
+
+            if (isSql) {
+                stringBuilder.append(GeneralConstant.RUMINATING);
+                stringBuilder.append(field.getName());
+                stringBuilder.append(GeneralConstant.RUMINATING);
+            } else {
+                stringBuilder.append(field.getName());
+            }
         }
 
         return stringBuilder.substring(1);

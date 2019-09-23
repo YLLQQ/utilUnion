@@ -1,5 +1,7 @@
 package self.yang.mybatis.sql;
 
+import self.yang.util.constant.GeneralConstant;
+
 /**
  * self.yang.mybatis.sql.OrderCondition
  *
@@ -23,6 +25,6 @@ public class OrderCondition {
 
     @Override
     public String toString() {
-        return key + (desc ? " desc" : " asc");
+        return GeneralConstant.RUMINATING + key + GeneralConstant.RUMINATING + (desc ? " desc" : " asc");
     }
 }
