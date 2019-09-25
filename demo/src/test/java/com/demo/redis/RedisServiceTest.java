@@ -2,10 +2,13 @@ package com.demo.redis;
 
 import com.demo.DemoApplicationTests;
 import com.demo.demo.domain.AccountDO;
+import com.google.common.collect.Maps;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Set;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * com.demo.redis.RedisServiceTest
@@ -21,59 +24,43 @@ public class RedisServiceTest extends DemoApplicationTests {
     @Test
     public void testSetValueToString() {
 
-        String zSetKey = "zSet1234563";
-
-        Set<AccountDO> valueFromZSet = redisService.getValueFromZSet(zSetKey);
-
-        for (AccountDO accountDO : valueFromZSet) {
-            System.out.println(accountDO);
-        }
-
-        valueFromZSet = redisService.getValueFromZSet(zSetKey, true);
-
-        for (AccountDO accountDO : valueFromZSet) {
-            System.out.println(accountDO);
-        }
-
-        valueFromZSet = redisService.getValueFromZSet(zSetKey, 2D);
-
-        for (AccountDO accountDO : valueFromZSet) {
-            System.out.println(accountDO);
-        }
-
-        valueFromZSet = redisService.getValueFromZSet(zSetKey, 2D, 3D);
-
-        for (AccountDO accountDO : valueFromZSet) {
-            System.out.println(accountDO);
-        }
-
-        valueFromZSet = redisService.getValueFromZSet(zSetKey, 2D, 3D, true);
-
-        for (AccountDO accountDO : valueFromZSet) {
-            System.out.println(accountDO);
-        }
+        String hashKey = "hash1234563";
 
         AccountDO accountDO = new AccountDO();
 
         accountDO.setId(1);
         accountDO.setAccount("admin");
 
-        Double scoreInZSet = redisService.getScoreInZSet(zSetKey, accountDO);
+        redisService.putValueToHash(hashKey, accountDO.getId() + "", accountDO);
 
-        System.out.println(scoreInZSet);
+        HashMap<String, AccountDO> objectObjectHashMap = Maps.newHashMap();
 
-        boolean zSetMember = redisService.isZSetMember(zSetKey, accountDO);
+        objectObjectHashMap.put(11 + "", accountDO);
+        objectObjectHashMap.put(12 + "", accountDO);
+        objectObjectHashMap.put(13 + "", accountDO);
 
-        System.out.println(zSetMember);
+        redisService.putValueToHash(hashKey, objectObjectHashMap);
 
-        accountDO.setAccount("admin1");
+        AccountDO valueFromHash = redisService.getValueFromHash(hashKey, "11");
 
-        scoreInZSet = redisService.getScoreInZSet(zSetKey, accountDO);
+        System.out.println(valueFromHash);
 
-        System.out.println(scoreInZSet);
+        Map<String, AccountDO> valueFromHash1 = redisService.getValueFromHash(hashKey);
 
-        zSetMember = redisService.isZSetMember(zSetKey, accountDO);
+        System.out.println(valueFromHash1);
 
-        System.out.println(zSetMember);
+        Boolean aBoolean = redisService.hashHasKey(hashKey, "11");
+
+        System.out.println(aBoolean);
+
+        aBoolean = redisService.hashHasKey(hashKey, "115");
+
+        System.out.println(aBoolean);
+
+        redisService.deleteHashKeyFromHash(hashKey, "11", "13");
+
+        List<AccountDO> valueFromHash2 = redisService.getValueFromHash(hashKey, "1", "2");
+
+        System.out.println(valueFromHash2);
     }
 }

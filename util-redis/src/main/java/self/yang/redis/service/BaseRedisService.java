@@ -5,10 +5,7 @@ import org.springframework.data.redis.core.*;
 import self.yang.redis.common.ExpireTimeEnum;
 
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * self.yang.redis.service.BaseRedisService
@@ -410,4 +407,100 @@ public class BaseRedisService {
     public <T> boolean isZSetMember(String key, T t) {
         return null != getScoreInZSet(key, t);
     }
+
+    /**
+     * Hash类型，添加新值
+     *
+     * @param key     缓存Key
+     * @param hashKey hash类型key
+     * @param t
+     * @param <T>
+     */
+    public <T extends Serializable> void putValueToHash(String key, String hashKey, T t) {
+        HashOperations hashOperations = getRedisTemplate().opsForHash();
+
+        hashOperations.put(key, hashKey, t);
+    }
+
+    /**
+     * Hash类型，添加新值
+     *
+     * @param key
+     * @param maps
+     * @param <T>
+     */
+    public <T extends Serializable> void putValueToHash(String key, Map<String, T> maps) {
+        HashOperations hashOperations = getRedisTemplate().opsForHash();
+
+        hashOperations.putAll(key, maps);
+    }
+
+    /**
+     * Hash类型，获取值
+     *
+     * @param key
+     * @param <T>
+     * @return
+     */
+    public <T> Map<String, T> getValueFromHash(String key) {
+        HashOperations hashOperations = getRedisTemplate().opsForHash();
+
+        return hashOperations.entries(key);
+    }
+
+    /**
+     * Hash类型，获取值
+     *
+     * @param key
+     * @param hashKey
+     * @param <T>
+     * @return
+     */
+    public <T> T getValueFromHash(String key, String hashKey) {
+        HashOperations hashOperations = getRedisTemplate().opsForHash();
+
+        return (T) hashOperations.get(key, hashKey);
+    }
+
+    /**
+     * Hash类型，获取值
+     *
+     * @param key
+     * @param hashKeys
+     * @param <T>
+     * @return
+     */
+    public <T> List<T> getValueFromHash(String key, String... hashKeys) {
+        HashOperations hashOperations = getRedisTemplate().opsForHash();
+
+        return hashOperations.multiGet(key, Arrays.asList(hashKeys));
+    }
+
+
+    /**
+     * Hash类型，是否包含有hashKey
+     *
+     * @param key
+     * @param hashKey
+     * @return
+     */
+    public Boolean hashHasKey(String key, String hashKey) {
+        HashOperations hashOperations = getRedisTemplate().opsForHash();
+
+        return hashOperations.hasKey(key, hashKey);
+    }
+
+    /**
+     * Hash类型，删除多个hashKey
+     *
+     * @param key
+     * @param hashKeys
+     * @return
+     */
+    public void deleteHashKeyFromHash(String key, String... hashKeys) {
+        HashOperations hashOperations = getRedisTemplate().opsForHash();
+
+        hashOperations.delete(key, hashKeys);
+    }
+
 }
