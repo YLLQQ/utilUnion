@@ -2,6 +2,7 @@ package com.demo.redis;
 
 import com.demo.demo.domain.AccountDO;
 import org.springframework.stereotype.Service;
+import self.yang.redis.common.ExpireTimeEnum;
 import self.yang.redis.service.BaseRedisService;
 
 /**
@@ -15,7 +16,9 @@ public class RedisService extends BaseRedisService {
 
     public void setAccountToRedis(String key, AccountDO accountDO, boolean expire) {
         if (expire) {
-            super.putValueToString(key, accountDO, ExpireTime.ONE_MINUTE);
+            super.putValueToString(key, accountDO, ExpireTimeEnum.ONE_MINUTE);
+
+            return;
         }
 
         this.setAccountToRedis(key, accountDO);
