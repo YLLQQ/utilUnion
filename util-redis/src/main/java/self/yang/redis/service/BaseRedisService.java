@@ -18,6 +18,8 @@ public class BaseRedisService {
     private RedisTemplate redisTemplate;
 
     /**
+     * String类型，设置新值
+     *
      * @param key
      * @param t
      */
@@ -25,5 +27,18 @@ public class BaseRedisService {
         BoundValueOperations boundValueOperations = redisTemplate.boundValueOps(key);
 
         boundValueOperations.set(t);
+    }
+
+    /**
+     * String类型，获取值
+     *
+     * @param key
+     * @param <T>
+     * @return
+     */
+    protected <T extends Serializable> T getValueFromString(String key) {
+        BoundValueOperations boundValueOperations = redisTemplate.boundValueOps(key);
+
+        return (T) boundValueOperations.get();
     }
 }

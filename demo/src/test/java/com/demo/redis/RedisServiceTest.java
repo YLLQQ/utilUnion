@@ -4,6 +4,7 @@ import com.demo.DemoApplicationTests;
 import com.demo.demo.domain.AccountDO;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import self.yang.util.tool.TimeUtil;
 
 /**
  * com.demo.redis.RedisServiceTest
@@ -24,6 +25,12 @@ public class RedisServiceTest extends DemoApplicationTests {
         accountDO.setAccount("admin");
         accountDO.setPassword("123456");
 
-        redisService.setValueToString(accountDO);
+        String key = "account" + TimeUtil.getCurrentDate();
+
+        redisService.setAccountToRedis(key, accountDO);
+
+        AccountDO accountFromRedis = redisService.getAccountFromRedis(key);
+
+        System.out.println(accountFromRedis);
     }
 }
