@@ -5,6 +5,8 @@ import com.demo.demo.domain.AccountDO;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Set;
+
 /**
  * com.demo.redis.RedisServiceTest
  *
@@ -19,25 +21,59 @@ public class RedisServiceTest extends DemoApplicationTests {
     @Test
     public void testSetValueToString() {
 
-        String zSetKey = "zSet123456";
+        String zSetKey = "zSet1234563";
+
+        Set<AccountDO> valueFromZSet = redisService.getValueFromZSet(zSetKey);
+
+        for (AccountDO accountDO : valueFromZSet) {
+            System.out.println(accountDO);
+        }
+
+        valueFromZSet = redisService.getValueFromZSet(zSetKey, true);
+
+        for (AccountDO accountDO : valueFromZSet) {
+            System.out.println(accountDO);
+        }
+
+        valueFromZSet = redisService.getValueFromZSet(zSetKey, 2D);
+
+        for (AccountDO accountDO : valueFromZSet) {
+            System.out.println(accountDO);
+        }
+
+        valueFromZSet = redisService.getValueFromZSet(zSetKey, 2D, 3D);
+
+        for (AccountDO accountDO : valueFromZSet) {
+            System.out.println(accountDO);
+        }
+
+        valueFromZSet = redisService.getValueFromZSet(zSetKey, 2D, 3D, true);
+
+        for (AccountDO accountDO : valueFromZSet) {
+            System.out.println(accountDO);
+        }
 
         AccountDO accountDO = new AccountDO();
 
         accountDO.setId(1);
         accountDO.setAccount("admin");
 
-        AccountDO accountDO1 = new AccountDO();
+        Double scoreInZSet = redisService.getScoreInZSet(zSetKey, accountDO);
 
-        accountDO1.setId(2);
-        accountDO1.setAccount("test");
+        System.out.println(scoreInZSet);
 
-        AccountDO accountDO2 = new AccountDO();
+        boolean zSetMember = redisService.isZSetMember(zSetKey, accountDO);
 
-        accountDO2.setId(3);
-        accountDO2.setAccount("test");
+        System.out.println(zSetMember);
 
-        redisService.putValueToZSet(zSetKey, accountDO, 3D);
-        redisService.putValueToZSet(zSetKey, accountDO1, 2D);
-        redisService.putValueToZSet(zSetKey, accountDO2, 1D);
+        accountDO.setAccount("admin1");
+
+        scoreInZSet = redisService.getScoreInZSet(zSetKey, accountDO);
+
+        System.out.println(scoreInZSet);
+
+        zSetMember = redisService.isZSetMember(zSetKey, accountDO);
+
+        System.out.println(zSetMember);
     }
 }

@@ -5,6 +5,8 @@ import org.springframework.data.redis.core.*;
 import self.yang.redis.common.ExpireTimeEnum;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -28,7 +30,7 @@ public class BaseRedisService {
      *
      * @param key
      */
-    protected void deleteKey(String key) {
+    public void deleteKey(String key) {
         getRedisTemplate().delete(key);
     }
 
@@ -38,7 +40,7 @@ public class BaseRedisService {
      * @param key
      * @return
      */
-    protected boolean hasKey(String key) {
+    public boolean hasKey(String key) {
         return getRedisTemplate().hasKey(key);
     }
 
@@ -50,7 +52,7 @@ public class BaseRedisService {
      * @param expireTime
      * @param <T>
      */
-    protected <T extends Serializable> void putValueToString(String key, T t, ExpireTimeEnum expireTime) {
+    public <T extends Serializable> void putValueToString(String key, T t, ExpireTimeEnum expireTime) {
         BoundValueOperations boundValueOperations = getRedisTemplate().boundValueOps(key);
 
         if (null != expireTime) {
@@ -66,7 +68,7 @@ public class BaseRedisService {
      * @param key
      * @param t
      */
-    protected <T extends Serializable> void putValueToString(String key, T t) {
+    public <T extends Serializable> void putValueToString(String key, T t) {
         this.putValueToString(key, t, null);
     }
 
@@ -77,7 +79,7 @@ public class BaseRedisService {
      * @param <T>
      * @return
      */
-    protected <T> T getValueFromString(String key) {
+    public <T> T getValueFromString(String key) {
         BoundValueOperations boundValueOperations = getRedisTemplate().boundValueOps(key);
 
         return (T) boundValueOperations.get();
@@ -210,7 +212,7 @@ public class BaseRedisService {
     public <T> List<T> getValueFromList(String key) {
         BoundListOperations boundListOperations = getRedisTemplate().boundListOps(key);
 
-        return boundListOperations.range(0, boundListOperations.size());
+        return getValueFromList(key, 0, boundListOperations.size());
     }
 
     /**
@@ -250,9 +252,26 @@ public class BaseRedisService {
      * @param <T>
      */
     public <T extends Serializable> void putValueToZSet(String key, T t, Double score) {
+        this.putValueToZSet(key, null, t, score);
+    }
+
+    /**
+     * ZSet类型，添加新值
+     *
+     * @param key
+     * @param expireTimeEnum
+     * @param t
+     * @param score
+     * @param <T>
+     */
+    public <T extends Serializable> void putValueToZSet(String key, ExpireTimeEnum expireTimeEnum, T t, Double score) {
         BoundZSetOperations boundZSetOperations = getRedisTemplate().boundZSetOps(key);
 
         boundZSetOperations.add(t, score);
+
+        if (null != expireTimeEnum) {
+            boundZSetOperations.expire(expireTimeEnum.getTime(), expireTimeEnum.getTimeUnit());
+        }
     }
 
     /**
@@ -262,9 +281,133 @@ public class BaseRedisService {
      * @param typedTuples
      * @param <T>
      */
-    public <T extends Serializable> void putValueToZSet(String key, Set<ZSetOperations.TypedTuple<T>> typedTuples) {
+    public <T extends Serializable> void putValueToZSet(
+            String key,
+            DefaultTypedTuple<T>... typedTuples
+    ) {
+        this.putValueToZSet(key, null, typedTuples);
+    }
+
+    /**
+     * ZSet类型，添加新值
+     *
+     * @param key
+     * @param expireTimeEnum
+     * @param typedTuples
+     * @param <T>
+     */
+    public <T extends Serializable> void putValueToZSet(
+            String key,
+            ExpireTimeEnum expireTimeEnum,
+            DefaultTypedTuple<T>... typedTuples
+    ) {
         BoundZSetOperations boundZSetOperations = getRedisTemplate().boundZSetOps(key);
 
-        boundZSetOperations.add(typedTuples);
+        Set<ZSetOperations.TypedTuple<T>> typedTupleSet = new HashSet<>(Arrays.asList(typedTuples));
+
+        boundZSetOperations.add(typedTupleSet);
+
+        if (null != expireTimeEnum) {
+            boundZSetOperations.expire(expireTimeEnum.getTime(), expireTimeEnum.getTimeUnit());
+        }
+    }
+
+    /**
+     * ZSet类型，获取值。默认根据score升序返回
+     *
+     * @param key
+     * @param <T>
+     * @return
+     */
+    public <T> Set<T> getValueFromZSet(String key) {
+        return getValueFromZSet(key, false);
+    }
+
+    /**
+     * ZSet类型，获取值
+     *
+     * @param key
+     * @param reverse true，score升序返回；false，score降序返回
+     * @param <T>
+     * @return
+     */
+    public <T> Set<T> getValueFromZSet(String key, boolean reverse) {
+        BoundZSetOperations boundZSetOperations = getRedisTemplate().boundZSetOps(key);
+
+        if (reverse) {
+            return boundZSetOperations.reverseRange(0, boundZSetOperations.size());
+        }
+
+        return boundZSetOperations.range(0, boundZSetOperations.size());
+    }
+
+    /**
+     * ZSet类型，获取值
+     *
+     * @param key
+     * @param score
+     * @param <T>
+     * @return
+     */
+    public <T> Set<T> getValueFromZSet(String key, double score) {
+        return getValueFromZSet(key, score, score);
+    }
+
+    /**
+     * ZSet类型，获取值。默认根据score升序返回
+     *
+     * @param key
+     * @param minScore
+     * @param maxScore
+     * @param <T>
+     * @return
+     */
+    public <T> Set<T> getValueFromZSet(String key, double minScore, double maxScore) {
+        return this.getValueFromZSet(key, minScore, maxScore, false);
+    }
+
+    /**
+     * ZSet类型，获取值。默认根据score升序返回
+     *
+     * @param key
+     * @param minScore
+     * @param maxScore
+     * @param reverse
+     * @param <T>
+     * @return
+     */
+    public <T> Set<T> getValueFromZSet(String key, double minScore, double maxScore, boolean reverse) {
+        BoundZSetOperations boundZSetOperations = getRedisTemplate().boundZSetOps(key);
+
+        if (reverse) {
+            return boundZSetOperations.reverseRangeByScore(minScore, maxScore);
+        }
+
+        return boundZSetOperations.rangeByScore(minScore, maxScore);
+    }
+
+    /**
+     * 获取对象在ZSet中Score
+     *
+     * @param key
+     * @param t
+     * @param <T>
+     * @return
+     */
+    public <T> Double getScoreInZSet(String key, T t) {
+        BoundZSetOperations boundZSetOperations = getRedisTemplate().boundZSetOps(key);
+
+        return boundZSetOperations.score(t);
+    }
+
+    /**
+     * ZSet类型，是否是成员
+     *
+     * @param key
+     * @param t
+     * @return
+     */
+    public <T> boolean isZSetMember(String key, T t) {
+        return null != getScoreInZSet(key, t);
     }
 }
