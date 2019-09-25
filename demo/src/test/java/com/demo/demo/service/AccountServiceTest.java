@@ -1,6 +1,6 @@
 package com.demo.demo.service;
 
-import com.demo.demo.DemoApplicationTests;
+import com.demo.DemoApplicationTests;
 import com.demo.demo.domain.AccountDO;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import self.yang.mybatis.domain.PageModel;
 public class AccountServiceTest extends DemoApplicationTests {
 
     @Autowired
-    private AccountService accountService;
+    private AccountMybatisService accountService;
 
     @Test
     public void test() {

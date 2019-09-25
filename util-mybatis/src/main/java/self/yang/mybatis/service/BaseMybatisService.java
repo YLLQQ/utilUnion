@@ -3,6 +3,7 @@ package self.yang.mybatis.service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.google.common.collect.Lists;
+import org.springframework.beans.factory.annotation.Autowired;
 import self.yang.mybatis.domain.BaseDO;
 import self.yang.mybatis.domain.PageModel;
 import self.yang.mybatis.helper.SqlHelper;
@@ -17,12 +18,15 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * self.yang.mybatis.service.BaseService
+ * self.yang.mybatis.service.BaseMybatisService
  *
  * @author eleven
  * @date 2019/09/21
  */
-public abstract class BaseService<M extends BaseMapper, D extends BaseDO> {
+public abstract class BaseMybatisService<D extends BaseDO> {
+
+    @Autowired
+    private BaseMapper<D> baseMapper;
 
     private static final ConcurrentHashMap<Class, String> mapTableAndColumn = new ConcurrentHashMap();
 
@@ -40,7 +44,9 @@ public abstract class BaseService<M extends BaseMapper, D extends BaseDO> {
      *
      * @return
      */
-    protected abstract M getMapper();
+    protected BaseMapper<D> getMapper() {
+        return baseMapper;
+    }
 
     /**
      * 基础映射操作的表名
@@ -98,6 +104,7 @@ public abstract class BaseService<M extends BaseMapper, D extends BaseDO> {
      * @return
      */
     protected D getWithColumnsById(Number id) {
+
         String columns = getFullColumnsByClass();
 
         return (D) getMapper().getWithColumnsById(getTableName(), columns, id);
@@ -324,12 +331,12 @@ public abstract class BaseService<M extends BaseMapper, D extends BaseDO> {
     }
 
     private String getFullColumnsByClass() {
-        Class<? extends BaseService> aClass = this.getClass();
+        Class<? extends BaseMybatisService> aClass = this.getClass();
         String columns = mapTableAndColumn.get(aClass);
 
         if (null == columns) {
             Type[] paradigms = ClassUtil.getParadigms(aClass);
-            Type type = paradigms[1];
+            Type type = paradigms[0];
             Class classByType = ClassUtil.getClassByType(type);
             columns = ClassUtil.getFullFields(classByType, true);
 

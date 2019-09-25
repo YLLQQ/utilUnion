@@ -21,6 +21,11 @@
     <dependencies>
         <dependency>
             <groupId>self.yang</groupId>
+            <artifactId>util-redis</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>self.yang</groupId>
             <artifactId>util-mybatis</artifactId>
             <version>1.0.0</version>
         </dependency>

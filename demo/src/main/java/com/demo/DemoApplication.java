@@ -1,12 +1,14 @@
-package com.demo.demo;
+package com.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * @author eleven
  */
-@SpringBootApplication(scanBasePackages = "com.demo,self.yang")
+@ComponentScan(basePackages = {"com.demo", "self.yang"})
+@SpringBootApplication
 public class DemoApplication {
 
     public static void main(String[] args) {

@@ -1,28 +1,18 @@
 package com.demo.demo.service;
 
 import com.demo.demo.domain.AccountDO;
-import com.demo.demo.mapper.AccountMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import self.yang.mybatis.domain.PageModel;
-import self.yang.mybatis.service.BaseService;
+import self.yang.mybatis.service.BaseMybatisService;
 
 /**
- * com.demo.demo.service.AccountService
+ * com.demo.demo.service.AccountMybatisService
  *
  * @author eleven
  * @date 2019/09/21
  */
 @Service
-public class AccountService extends BaseService<AccountMapper, AccountDO> {
-
-    @Autowired
-    private AccountMapper accountMapper;
-
-    @Override
-    protected AccountMapper getMapper() {
-        return accountMapper;
-    }
+public class AccountMybatisService extends BaseMybatisService<AccountDO> {
 
     @Override
     protected String getTableName() {
