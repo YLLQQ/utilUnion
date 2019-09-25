@@ -20,7 +20,7 @@ public class BaseRedisService {
     @Autowired
     private RedisTemplate redisTemplate;
 
-    public RedisTemplate getRedisTemplate() {
+    protected RedisTemplate getRedisTemplate() {
         return redisTemplate;
     }
 
