@@ -476,7 +476,6 @@ public class BaseRedisService {
         return hashOperations.multiGet(key, Arrays.asList(hashKeys));
     }
 
-
     /**
      * Hash类型，是否包含有hashKey
      *
