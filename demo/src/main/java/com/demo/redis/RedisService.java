@@ -13,12 +13,25 @@ import self.yang.redis.service.BaseRedisService;
 @Service
 public class RedisService extends BaseRedisService {
 
+    public void setAccountToRedis(String key, AccountDO accountDO, boolean expire) {
+        if (expire) {
+            super.putValueToString(key, accountDO, ExpireTime.ONE_MINUTE);
+        }
+
+        this.setAccountToRedis(key, accountDO);
+    }
+
+
     public void setAccountToRedis(String key, AccountDO accountDO) {
         super.putValueToString(key, accountDO);
     }
 
     public AccountDO getAccountFromRedis(String key) {
         return super.getValueFromString(key);
+    }
+
+    public boolean hasAccount(String key) {
+        return super.hasKey(key);
     }
 
 }

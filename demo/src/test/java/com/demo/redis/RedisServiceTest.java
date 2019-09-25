@@ -25,12 +25,22 @@ public class RedisServiceTest extends DemoApplicationTests {
         accountDO.setAccount("admin");
         accountDO.setPassword("123456");
 
-        String key = "account" + TimeUtil.getCurrentDate();
+        String key = "account" + TimeUtil.getCurrentMillions();
 
         redisService.setAccountToRedis(key, accountDO);
 
         AccountDO accountFromRedis = redisService.getAccountFromRedis(key);
 
         System.out.println(accountFromRedis);
+
+        boolean b = redisService.hasAccount(key);
+
+        System.out.println(b);
+
+        key = "account" + TimeUtil.getCurrentMillions();
+
+        redisService.setAccountToRedis(key, accountDO, true);
+
+        System.out.println(key);
     }
 }
