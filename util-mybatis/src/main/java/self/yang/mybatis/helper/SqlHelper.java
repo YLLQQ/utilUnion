@@ -210,6 +210,18 @@ public class SqlHelper {
      * @return
      */
     public static String getInsertString(BaseDO baseDO) {
+        return getInsertString(baseDO, true);
+    }
+
+    /**
+     * 获取当前DO的insert表达式
+     * <p>
+     * (`account`,`password`) values('1569052618293','admin')
+     *
+     * @param baseDO
+     * @return
+     */
+    public static String getInsertString(BaseDO baseDO, boolean convert) {
         Class<? extends BaseDO> aClass = baseDO.getClass();
         Field[] fields = aClass.getDeclaredFields();
 
@@ -227,7 +239,11 @@ public class SqlHelper {
                 String attributeName = field.getName();
                 keys.append(GeneralConstant.COMMA);
                 keys.append(GeneralConstant.RUMINATING);
-                keys.append(attributeName);
+
+                if (convert) {
+                    keys.append(StringUtil.lowerCamelToLowerUnderScore(attributeName));
+                }
+
                 keys.append(GeneralConstant.RUMINATING);
 
                 values.append(GeneralConstant.COMMA);

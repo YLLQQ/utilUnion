@@ -61,7 +61,7 @@ public abstract class BaseMybatisService<D extends BaseDO> {
      * @param d
      * @return
      */
-    protected boolean add(D d) {
+    public boolean add(D d) {
         return getMapper().add(getTableName(), SqlHelper.getInsertString(d));
     }
 
@@ -71,7 +71,7 @@ public abstract class BaseMybatisService<D extends BaseDO> {
      * @param d
      * @return
      */
-    protected boolean updateById(D d) {
+    public boolean updateById(D d) {
         return getMapper().updateById(getTableName(), SqlHelper.getSetString(d), d.getId());
     }
 
@@ -80,7 +80,7 @@ public abstract class BaseMybatisService<D extends BaseDO> {
      *
      * @param id
      */
-    protected boolean deleteById(Number id) {
+    public boolean deleteById(Number id) {
         return getMapper().deleteById(getTableName(), id);
     }
 
@@ -91,7 +91,7 @@ public abstract class BaseMybatisService<D extends BaseDO> {
      * @param columns
      * @return
      */
-    protected D getWithOptionalColumnsById(Number id, String[] columns) {
+    public D getWithOptionalColumnsById(Number id, String[] columns) {
         String optionalColumn = SqlHelper.getColumnString(columns, isLowerCamelToLowerUnderScore());
 
         return (D) getMapper().getWithColumnsById(getTableName(), optionalColumn, id);
@@ -103,7 +103,7 @@ public abstract class BaseMybatisService<D extends BaseDO> {
      * @param id
      * @return
      */
-    protected D getWithColumnsById(Number id) {
+    public D getWithColumnsById(Number id) {
 
         String columns = getFullColumnsByClass();
 
@@ -116,7 +116,7 @@ public abstract class BaseMybatisService<D extends BaseDO> {
      * @param id
      * @return
      */
-    protected D getById(Number id) {
+    public D getById(Number id) {
         return (D) getMapper().getById(getTableName(), id);
     }
 
@@ -126,7 +126,7 @@ public abstract class BaseMybatisService<D extends BaseDO> {
      *
      * @return
      */
-    protected List<D> listAll() {
+    public List<D> listAll() {
         return this.list(null, null, null, null);
     }
 
@@ -136,7 +136,7 @@ public abstract class BaseMybatisService<D extends BaseDO> {
      * @param orderConditions
      * @return
      */
-    protected List<D> listByCondition(
+    public List<D> listByCondition(
             OrderCondition[] orderConditions
     ) {
         return this.listByCondition(null, null, null, orderConditions);
@@ -149,7 +149,7 @@ public abstract class BaseMybatisService<D extends BaseDO> {
      * @return
      * @Param columns
      */
-    protected List<D> listByCondition(
+    public List<D> listByCondition(
             String[] columns,
             OrderCondition[] orderConditions
     ) {
@@ -163,7 +163,7 @@ public abstract class BaseMybatisService<D extends BaseDO> {
      * @param orderConditions
      * @return
      */
-    protected List<D> listByCondition(
+    public List<D> listByCondition(
             WhereCondition[] whereConditions, OrderCondition[] orderConditions
     ) {
         return this.listByCondition(null, whereConditions, null, orderConditions);
@@ -176,7 +176,7 @@ public abstract class BaseMybatisService<D extends BaseDO> {
      * @param groupByConditions
      * @return
      */
-    protected List<D> listByCondition(
+    public List<D> listByCondition(
             WhereCondition[] whereConditions, String[] groupByConditions
     ) {
         return this.listByCondition(null, whereConditions, groupByConditions, null);
@@ -188,7 +188,7 @@ public abstract class BaseMybatisService<D extends BaseDO> {
      * @param whereConditions
      * @return
      */
-    protected List<D> listByCondition(
+    public List<D> listByCondition(
             WhereCondition[] whereConditions
     ) {
         return this.listByCondition(null, whereConditions);
@@ -200,7 +200,7 @@ public abstract class BaseMybatisService<D extends BaseDO> {
      * @param columns
      * @return
      */
-    protected List<D> listByCondition(
+    public List<D> listByCondition(
             String[] columns
     ) {
         return this.listByCondition(columns, null, null, null);
@@ -213,7 +213,7 @@ public abstract class BaseMybatisService<D extends BaseDO> {
      * @param whereConditions
      * @return
      */
-    protected List<D> listByCondition(
+    public List<D> listByCondition(
             String[] columns, WhereCondition[] whereConditions
     ) {
         return this.listByCondition(columns, whereConditions, null);
@@ -227,7 +227,7 @@ public abstract class BaseMybatisService<D extends BaseDO> {
      * @param groupByConditions
      * @return
      */
-    protected List<D> listByCondition(
+    public List<D> listByCondition(
             String[] columns, WhereCondition[] whereConditions, String[] groupByConditions
     ) {
         return this.listByCondition(columns, whereConditions, groupByConditions, null);
@@ -244,7 +244,7 @@ public abstract class BaseMybatisService<D extends BaseDO> {
      * @param size
      * @return
      */
-    protected PageModel<D> listByConditionWithPage(
+    public PageModel<D> listByConditionWithPage(
             String[] columns, WhereCondition[] whereConditions, String[] groupByConditions,
             OrderCondition[] orderConditions, int page, int size
     ) {
@@ -265,7 +265,7 @@ public abstract class BaseMybatisService<D extends BaseDO> {
      * @param orderConditions
      * @return
      */
-    protected List<D> listByCondition(
+    public List<D> listByCondition(
             String[] columns, WhereCondition[] whereConditions, String[] groupByConditions,
             OrderCondition[] orderConditions
     ) {
