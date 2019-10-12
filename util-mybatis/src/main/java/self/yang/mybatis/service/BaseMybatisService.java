@@ -3,7 +3,6 @@ package self.yang.mybatis.service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.google.common.collect.Lists;
-import org.springframework.beans.factory.annotation.Autowired;
 import self.yang.mybatis.domain.BaseDO;
 import self.yang.mybatis.domain.PageModel;
 import self.yang.mybatis.helper.SqlHelper;
@@ -25,9 +24,6 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public abstract class BaseMybatisService<D extends BaseDO> {
 
-    @Autowired
-    private BaseMapper<D> baseMapper;
-
     private static final ConcurrentHashMap<Class, String> mapTableAndColumn = new ConcurrentHashMap();
 
     /**
@@ -44,9 +40,7 @@ public abstract class BaseMybatisService<D extends BaseDO> {
      *
      * @return
      */
-    protected BaseMapper<D> getMapper() {
-        return baseMapper;
-    }
+    protected abstract BaseMapper<D> getMapper();
 
     /**
      * 基础映射操作的表名
