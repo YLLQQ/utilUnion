@@ -4,7 +4,7 @@ import com.demo.DemoApplicationTests;
 import com.demo.demo.domain.AccountDO;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import self.yang.mybatis.domain.PageModel;
+import self.yang.model.domain.PageModel;
 
 /**
  * com.demo.demo.service.AccountServiceTest

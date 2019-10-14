@@ -1,9 +1,9 @@
-package self.yang.mybatis.domain;
+package self.yang.model.domain;
 
 import lombok.Data;
 
 /**
- * self.yang.mybatis.domain.ColumnDO
+ * self.yang.model.domain.ColumnDO
  * <p>
  * 表和列映射关系
  *

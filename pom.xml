@@ -20,6 +20,7 @@
         <module>util-common</module>
         <module>util-mybatis</module>
         <module>util-redis</module>
+        <module>util-model</module>
     </modules>
 
     <dependencyManagement>
@@ -62,6 +63,11 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
                 <version>LATEST</version>
+            </dependency>
+            <dependency>
+                <groupId>self.yang</groupId>
+                <artifactId>util-model</artifactId>
+                <version>${version}</version>
             </dependency>
             <dependency>
                 <groupId>self.yang</groupId>

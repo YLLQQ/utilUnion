@@ -1,7 +1,7 @@
 package self.yang.mybatis.mapper;
 
 import org.apache.ibatis.annotations.Select;
-import self.yang.mybatis.domain.ColumnDO;
+import self.yang.model.domain.ColumnDO;
 
 import java.util.List;
 

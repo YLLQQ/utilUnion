@@ -1,7 +1,7 @@
 package com.demo.demo.domain;
 
 import lombok.Data;
-import self.yang.mybatis.domain.BaseDO;
+import self.yang.model.domain.BaseDO;
 
 /**
  * com.demo.demo.domain.LogDO

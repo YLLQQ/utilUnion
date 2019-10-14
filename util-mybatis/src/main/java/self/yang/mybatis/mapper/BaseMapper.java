@@ -2,7 +2,7 @@ package self.yang.mybatis.mapper;
 
 import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.*;
-import self.yang.mybatis.domain.BaseDO;
+import self.yang.model.domain.BaseDO;
 
 import java.util.List;
 

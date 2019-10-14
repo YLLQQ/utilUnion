@@ -1,7 +1,7 @@
 package com.demo.demo.domain;
 
 import lombok.Data;
-import self.yang.mybatis.domain.BaseDO;
+import self.yang.model.domain.BaseDO;
 
 import java.io.Serializable;
 import java.util.Date;

@@ -1,6 +1,6 @@
 package self.yang.mybatis.helper;
 
-import self.yang.mybatis.domain.BaseDO;
+import self.yang.model.domain.BaseDO;
 import self.yang.mybatis.mapper.BaseMapper;
 import self.yang.mybatis.sql.OrderCondition;
 import self.yang.mybatis.sql.WhereCondition;

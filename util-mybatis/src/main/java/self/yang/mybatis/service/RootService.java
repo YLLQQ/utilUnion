@@ -1,7 +1,7 @@
 package self.yang.mybatis.service;
 
 import com.google.common.collect.Maps;
-import self.yang.mybatis.domain.ColumnDO;
+import self.yang.model.domain.ColumnDO;
 import self.yang.mybatis.mapper.RootMapper;
 import self.yang.util.constant.GeneralConstant;
 

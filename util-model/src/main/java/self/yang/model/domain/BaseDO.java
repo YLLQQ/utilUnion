@@ -1,7 +1,7 @@
-package self.yang.mybatis.domain;
+package self.yang.model.domain;
 
 /**
- * self.yang.mybatis.domain.BaseDO
+ * self.yang.model.domain.BaseDO
  *
  * @author eleven
  * @date 2019/09/20

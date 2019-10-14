@@ -26,6 +26,10 @@
         </dependency>
         <dependency>
             <groupId>self.yang</groupId>
+            <artifactId>util-model</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>self.yang</groupId>
             <artifactId>util-common</artifactId>
         </dependency>
         <dependency>

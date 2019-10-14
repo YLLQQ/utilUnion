@@ -2,7 +2,7 @@ package com.demo.demo.service;
 
 import com.demo.demo.domain.AccountDO;
 import org.springframework.stereotype.Service;
-import self.yang.mybatis.domain.PageModel;
+import self.yang.model.domain.PageModel;
 import self.yang.mybatis.service.BaseMybatisService;
 
 /**

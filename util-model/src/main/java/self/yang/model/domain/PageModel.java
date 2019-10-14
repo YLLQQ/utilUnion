@@ -1,11 +1,11 @@
-package self.yang.mybatis.domain;
+package self.yang.model.domain;
 
 import lombok.Data;
 
 import java.util.List;
 
 /**
- * self.yang.mybatis.domain.PageModel
+ * self.yang.model.domain.PageModel
  *
  * @author eleven
  * @date 2019/09/23
