@@ -1,9 +1,12 @@
 spring:
   datasource:
-    url: jdbc:mysql://192.168.1.110:33306/test?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    url: jdbc:mysql://192.168.1.110:23306/test?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    host: 192.168.1.110
+    port: 26379
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
@@ -16,3 +19,7 @@ logging:
           mapper: debug
 pagehelper:
   auto-dialect: mysql
+management:
+  endpoint:
+    health:
+      show-details: always
