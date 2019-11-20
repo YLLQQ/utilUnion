@@ -1,4 +1,4 @@
-package unit.web.handler;
+package unit.web.advice;
 
 import define.unit.enums.ProjectResponseCodeEnum;
 import define.unit.exception.BusinessException;
@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
- * @ClassName GlobalRestControllerExceptionHandler
+ * @ClassName GlobalRestControllerExceptionAdvice
  * @Description TODO
  * @Author yangguoqing
  * @Date 2019/11/20 10:02 上午
  */
 @RestControllerAdvice
-public class GlobalRestControllerExceptionHandler {
+public class GlobalRestControllerExceptionAdvice {
 
 
 	/**

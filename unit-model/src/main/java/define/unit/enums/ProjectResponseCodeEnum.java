@@ -17,6 +17,7 @@ public enum ProjectResponseCodeEnum implements BusinessResponseInterface {
 	SUCCESS(200, "响应成功", "response success"),
 
 	REQUEST_METHOD_NOT_SUPPORT(1000, "目标接口请求方式错误", "request method not support"),
+	GET_VALUE_IS_NULL(1001, "获取有效值为null", "get value is null"),
 
 	;
 
