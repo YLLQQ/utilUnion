@@ -21,6 +21,9 @@
         <module>util-mybatis</module>
         <module>util-redis</module>
         <module>util-model</module>
+        <module>unit-exception</module>
+        <module>unit-model</module>
+        <module>unit-springboot-web</module>
     </modules>
 
     <dependencyManagement>
