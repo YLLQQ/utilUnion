@@ -24,6 +24,7 @@
         <module>unit-exception</module>
         <module>unit-model</module>
         <module>unit-springboot-web</module>
+        <module>unit-tool</module>
     </modules>
 
     <dependencyManagement>
