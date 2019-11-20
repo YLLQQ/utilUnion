@@ -5,6 +5,7 @@ import define.unit.enums.ProjectResponseCodeEnum;
 import define.unit.exception.BusinessException;
 import define.unit.model.BusinessResponseModel;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -36,9 +37,19 @@ public class GlobalRestControllerExceptionAdvice {
 	 *
 	 * @return
 	 */
-	@ExceptionHandler(value = JsonParseException.class)
-	public BusinessResponseModel jsonParseException() {
-		return BusinessResponseModel.getInstance(ProjectResponseCodeEnum.JSON_PARSE_FAIL);
+	@ExceptionHandler(value = HttpMessageNotReadableException.class)
+	public BusinessResponseModel httpMessageNotReadableException(HttpMessageNotReadableException e) {
+		log.error("request body convert fail", e);
+
+		Throwable cause = e.getCause();
+
+		if (null != cause) {
+			if (cause instanceof JsonParseException) {
+				return BusinessResponseModel.getInstance(ProjectResponseCodeEnum.JSON_PARSE_FAIL);
+			}
+		}
+
+		return BusinessResponseModel.getInstance(ProjectResponseCodeEnum.REQUEST_READ_FAIL);
 	}
 
 	/**

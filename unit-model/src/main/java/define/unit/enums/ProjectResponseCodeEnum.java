@@ -20,6 +20,7 @@ public enum ProjectResponseCodeEnum implements BusinessResponseInterface {
 	REQUEST_METHOD_NOT_SUPPORT(1000, "目标接口请求方式错误", "request method not support"),
 	GET_VALUE_IS_NULL(1001, "获取有效值为null", "get value is null"),
 	JSON_PARSE_FAIL(1002, "json转换失败", "json parse fail"),
+	REQUEST_READ_FAIL(1003, "请求体读入失败", "request read fail"),
 
 	;
 
