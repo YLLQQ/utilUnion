@@ -26,7 +26,7 @@ public class EncryptUtil {
 	public static String decodeWithBase64(String string) {
 		byte[] decode = BaseEncoding.base64().decode(string);
 
-		return String.valueOf(decode);
+		return new String(decode);
 	}
 
 	public static void main(String[] args) {
