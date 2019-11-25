@@ -7,7 +7,11 @@ import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
+
+import java.util.Collection;
+import java.util.Collections;
 
 /**
  * @ClassName GlobalRestControllerResponseBodyAdvice
@@ -32,6 +36,14 @@ public class GlobalControllerResponseBodyAdvice implements ResponseBodyAdvice {
 	) {
 		if (null == body) {
 			return BusinessResponseModel.getInstance(ProjectResponseCodeEnum.GET_VALUE_IS_NULL);
+		}
+
+		if (body instanceof Collections) {
+			boolean empty = CollectionUtils.isEmpty((Collection<?>) body);
+
+			if (empty) {
+				return BusinessResponseModel.getInstance(ProjectResponseCodeEnum.GET_VALUE_IS_NULL);
+			}
 		}
 
 		if (body instanceof BusinessResponseModel) {
