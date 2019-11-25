@@ -6,7 +6,9 @@ import define.unit.exception.BusinessException;
 import define.unit.model.BusinessResponseModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -20,7 +22,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalRestControllerExceptionAdvice {
 
-
 	/**
 	 * 业务逻辑异常处理
 	 *
@@ -30,6 +31,26 @@ public class GlobalRestControllerExceptionAdvice {
 	@ExceptionHandler(value = BusinessException.class)
 	public BusinessResponseModel serviceExceptionHandler(BusinessException e) {
 		return e.toBusinessResponse();
+	}
+
+	/**
+	 * SQL表达式错误
+	 *
+	 * @return
+	 */
+	@ExceptionHandler(value = BadSqlGrammarException.class)
+	public BusinessResponseModel badSqlGrammarExceptionHandler() {
+		return BusinessResponseModel.getInstance(ProjectResponseCodeEnum.BAD_SQL_GRAMMAR);
+	}
+
+	/**
+	 * 方法必要参数未匹配
+	 *
+	 * @return
+	 */
+	@ExceptionHandler(value = MethodArgumentNotValidException.class)
+	public BusinessResponseModel methodArgumentNotValidExceptionHandler() {
+		return BusinessResponseModel.getInstance(ProjectResponseCodeEnum.METHOD_ARGUMENT_NOT_VALID);
 	}
 
 	/**
