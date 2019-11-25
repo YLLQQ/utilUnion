@@ -39,7 +39,10 @@ public class GlobalRestControllerExceptionAdvice {
 	 * @return
 	 */
 	@ExceptionHandler(value = BadSqlGrammarException.class)
-	public BusinessResponseModel badSqlGrammarExceptionHandler() {
+	public BusinessResponseModel badSqlGrammarExceptionHandler(BadSqlGrammarException e) {
+
+		log.error("happen bad sql exception", e);
+
 		return BusinessResponseModel.getInstance(ProjectResponseCodeEnum.BAD_SQL_GRAMMAR);
 	}
 
