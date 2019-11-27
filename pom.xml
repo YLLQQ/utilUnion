@@ -25,6 +25,7 @@
         <module>unit-model</module>
         <module>unit-springboot-web</module>
         <module>unit-tool</module>
+        <module>unit-redis</module>
     </modules>
 
     <dependencyManagement>
