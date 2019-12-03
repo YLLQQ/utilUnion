@@ -23,6 +23,7 @@ public enum ProjectResponseCodeEnum implements BusinessResponseInterface {
 	REQUEST_READ_FAIL(1003, "请求体读入失败", "request read fail"),
 	METHOD_ARGUMENT_NOT_VALID(1004, "接口必要参数未匹配", "method argument not valid"),
 	BAD_SQL_GRAMMAR(1005, "底层映射异常", "bad sql grammar"),
+	RESOURCE_ACCESS_EXCEPTION(1006, "远程资源访问异常", "resource access exception"),
 
 	;
 

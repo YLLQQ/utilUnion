@@ -11,6 +11,7 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.ResourceAccessException;
 
 /**
  * @ClassName GlobalRestControllerExceptionAdvice
@@ -21,6 +22,20 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 @RestControllerAdvice
 public class GlobalRestControllerExceptionAdvice {
+
+	/**
+	 * 资源访问异常
+	 *
+	 * @param e 业务逻辑异常
+	 * @return
+	 */
+	@ExceptionHandler(value = ResourceAccessException.class)
+	public BusinessResponseModel resourceAccessExceptionHandler(ResourceAccessException e) {
+		log.error("resource cannot access ", e);
+
+		return BusinessResponseModel.getInstance(ProjectResponseCodeEnum.BAD_SQL_GRAMMAR);
+	}
+
 
 	/**
 	 * 业务逻辑异常处理
